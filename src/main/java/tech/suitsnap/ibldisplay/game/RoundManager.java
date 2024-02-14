@@ -94,4 +94,10 @@ public class RoundManager {
         roundLosses++;
     }
 
+    public enum Result {
+        WIN,
+        LOSS,
+        TIE,
+        FILL,
+    }
 }

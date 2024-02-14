@@ -11,7 +11,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.apache.commons.compress.utils.Lists;
 import tech.suitsnap.ibldisplay.IBLDisplayClient;
-import tech.suitsnap.ibldisplay.util.ScoreboardGetter;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +19,7 @@ import static tech.suitsnap.ibldisplay.IBLDisplayClient.serverTracker;
 import static tech.suitsnap.ibldisplay.IBLDisplayClient.tr;
 import static tech.suitsnap.ibldisplay.game.CombatManager.deaths;
 import static tech.suitsnap.ibldisplay.game.CombatManager.kills;
+import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.isValid;
 
 @Environment(EnvType.CLIENT)
 public class GameOverlay implements HudRenderCallback {
@@ -52,7 +52,7 @@ public class GameOverlay implements HudRenderCallback {
     public void onHudRender(DrawContext drawContext, float tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
-        List<Boolean> returnReasons = List.of(player == null, tr[0] == null, serverTracker.isNotMCCIsland(), !ScoreboardGetter.isValid(client.player, false));
+        List<Boolean> returnReasons = List.of(player == null, tr[0] == null, serverTracker.isNotMCCIsland(), !isValid(client.player, false));
 
         if (returnReasons.contains(true)) return;
 

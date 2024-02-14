@@ -4,8 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.Text;
-import tech.suitsnap.ibldisplay.game.Result;
+import tech.suitsnap.ibldisplay.game.RoundManager;
 
 import static tech.suitsnap.ibldisplay.game.CombatManager.handleDeath;
 import static tech.suitsnap.ibldisplay.game.CombatManager.handleKill;
@@ -29,14 +28,14 @@ public class ChatHandler {
         if (words.length > 6) {
             switch (words[5]) {
                 case "won":
-                    handleRoundEnd(Result.WIN);
+                    handleRoundEnd(RoundManager.Result.WIN);
                     break;
                 case "lost":
-                    handleRoundEnd(Result.LOSS);
+                    handleRoundEnd(RoundManager.Result.LOSS);
                     break;
                 case "a":
                     if (words[6].equals("draw")) {
-                        handleRoundEnd(Result.TIE);
+                        handleRoundEnd(RoundManager.Result.TIE);
                     }
                     break;
             }
