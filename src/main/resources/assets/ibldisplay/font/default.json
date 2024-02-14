@@ -1,0 +1,14 @@
+{
+  "providers": [
+    {
+      "type": "ttf",
+      "file": "ibldisplay:hud.ttf",
+      "shift": [
+        0.0,
+        2.25
+      ],
+      "size": 7,
+      "oversample": 4
+    }
+  ]
+}

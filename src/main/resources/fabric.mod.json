@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "ibldisplay",
+  "version": "${version}",
+  "name": "IBLDisplay",
+  "description": "",
+  "authors": [
+    "SuitSnap"
+  ],
+  "contact": {
+    "repo": "https://github.com/SuitSnap/IBLDisplay"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/ibldisplay/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "tech.suitsnap.ibldisplay.IBLDisplayClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
