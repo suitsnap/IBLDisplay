@@ -34,7 +34,6 @@ public class TabListGetter {
         assert player != null;
         Collection<PlayerListEntry> players = player.networkHandler.getListedPlayerListEntries();
 
-
         for (PlayerListEntry tabListPlayer : players) {
             if (tabListPlayer.getDisplayName() == null)
                 continue;
@@ -45,23 +44,17 @@ public class TabListGetter {
                 if (segment.getSiblings().isEmpty())
                     return;
                 Text subsegment = segment.getSiblings().get(0);
-                if (subsegment.getString().isEmpty())
+                String content = subsegment.getString();
+                if (content.isEmpty())
                     return;
                 TextColor color = subsegment.getStyle().getColor();
                 if (color == null)
                     return;
-                String content = subsegment.getString();
                 int length = content.length();
                 if (content.contains("Team") || length > 20 || length < 3 || content.contains("."))
                     return;
                 String teamName = teamColours.get(color.toString());
-                if (teamMembers.containsKey(teamName)) {
-                    teamMembers.get(teamName).add(alphanumeric(subsegment.getString()));
-                } else {
-                    List<String> newList = new ArrayList<>();
-                    newList.add(alphanumeric(subsegment.getString()));
-                    teamMembers.put(teamName, newList);
-                }
+                teamMembers.computeIfAbsent(teamName, k -> new ArrayList<>()).add(alphanumeric(content));
             });
         }
         player.sendMessage(Text.of(teamMembers.toString()));

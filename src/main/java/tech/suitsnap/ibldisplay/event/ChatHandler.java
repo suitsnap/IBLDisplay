@@ -24,6 +24,10 @@ public class ChatHandler {
             newRound(content);
             return;
         }
+        if (content.contains("Game Over!")) {
+            gameEnd();
+            return;
+        }
         String[] words = content.split(" ");
         if (words.length > 6) {
             switch (words[5]) {

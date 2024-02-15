@@ -45,11 +45,11 @@ public class RoundManager {
 
     public static void gameEnd() {
         teamMembers.clear();
-        if (roundWins == 3) {
+        if (roundWins >= 3) {
             mapWins++;
             roundWins = 0;
         }
-        if (roundLosses == 3) {
+        if (roundLosses >= 3) {
             mapLosses++;
             roundLosses = 0;
         }
