@@ -11,11 +11,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.font.TextRenderer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import tech.suitsnap.ibldisplay.command.PositionCommand;
 import tech.suitsnap.ibldisplay.command.ResetCommand;
-import tech.suitsnap.ibldisplay.command.TestCommand;
 import tech.suitsnap.ibldisplay.event.ChatHandler;
 import tech.suitsnap.ibldisplay.event.PlayerJoinHandler;
-import tech.suitsnap.ibldisplay.game.RoundManager;
 import tech.suitsnap.ibldisplay.render.GameOverlay;
 import tech.suitsnap.ibldisplay.util.ServerTracker;
 
@@ -32,7 +31,7 @@ public class IBLDisplayClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        final boolean[] loaded = { false };
+        final boolean[] loaded = {false};
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.world != null && !loaded[0] && client.getResourceManager() != null) {
@@ -48,16 +47,16 @@ public class IBLDisplayClient implements ClientModInitializer {
 
         HudRenderCallback.EVENT.register(new GameOverlay());
 
-        ClientReceiveMessageEvents.GAME.register((text, b) -> {
-            ChatHandler.handleChat(text.getString());
-        });
+        ClientReceiveMessageEvents.GAME.register((text, b) -> ChatHandler.handleChat(text.getString()));
 
         ClientPlayConnectionEvents.JOIN.register(new PlayerJoinHandler());
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
             ResetCommand.register(dispatcher);
-            TestCommand.register(dispatcher);
+            PositionCommand.register(dispatcher);
         });
+
+        LOGGER.info("Initialized " + MODNAME);
     }
 
 }
