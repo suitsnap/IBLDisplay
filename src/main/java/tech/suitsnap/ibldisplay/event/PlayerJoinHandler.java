@@ -6,13 +6,13 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import tech.suitsnap.ibldisplay.game.RoundManager;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.getGame;
-import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.isValid;
+import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.*;
 import static tech.suitsnap.ibldisplay.util.TabListGetter.getTabList;
 import static tech.suitsnap.ibldisplay.util.TabListGetter.teamMembers;
 
@@ -25,6 +25,11 @@ public class PlayerJoinHandler implements ClientPlayConnectionEvents.Join {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.schedule(() -> {
             if (getGame(client.player) != null) {
+                if(!isPlobby(client.player)) {
+                    RoundManager.reset();
+                    return;
+                }
+
                 if (!isValid(client.player, false))
                     return;
                 teamMembers.clear();

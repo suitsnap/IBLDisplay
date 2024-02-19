@@ -3,12 +3,37 @@
   "id": "ibldisplay",
   "version": "${version}",
   "name": "IBLDisplay",
-  "description": "",
+  "description": "Custom built Fabric mod to provide an overlay for IBL Matches.",
   "authors": [
-    "SuitSnap"
+    {
+      "name": "SuitSnap",
+      "contact": {
+        "email": "suitsnap@suitsnap.tech",
+        "homepage": "https://suitsnap.tech"
+      }
+    }
+  ],
+  "contributors": [
+    "Tested by:",
+    "  itzmeSZ",
+    "  DigTV",
+    "  theTrapdoor",
+    "Feedback provided by:",
+    "  phexi",
+    "  vQuinnix",
+    "  Brunted",
+    "  Glowhead123",
+    "  goldrk",
+    "  Beehavior",
+    "  esophe",
+    "  aquatra",
+    "  xAppl",
+    "  kressere"
   ],
   "contact": {
-    "repo": "https://github.com/SuitSnap/IBLDisplay"
+    "homepage": "https://github.com/SuitSnap/IBLDisplay",
+    "sources": "https://github.com/SuitSnap/IBLDisplay",
+    "issues": "https://github.com/SuitSnap/IBLDisplay/issues"
   },
   "license": "All-Rights-Reserved",
   "icon": "assets/ibldisplay/icon.png",
@@ -17,6 +42,15 @@
     "client": [
       "tech.suitsnap.ibldisplay.IBLDisplayClient"
     ]
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.kofi": "https://ko-fi.com/suitsnap", 
+        "modmenu.discord": "https://discord.gg/ibl",
+        "modmenu.github_releases": "https://github.com/suitsnap/ibldisplay/releases"
+      }
+    }
   },
   "depends": {
     "fabricloader": ">=${loader_version}",

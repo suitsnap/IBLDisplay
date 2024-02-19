@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static tech.suitsnap.ibldisplay.game.RoundManager.*;
 import static tech.suitsnap.ibldisplay.util.GeneralUtil.alphanumeric;
 
 @Environment(EnvType.CLIENT)
@@ -23,8 +24,7 @@ public class ScoreboardGetter {
 
         Scoreboard scoreboard = player.getScoreboard();
         ScoreboardObjective objective = scoreboard.getObjectiveForSlot(Scoreboard.SIDEBAR_DISPLAY_SLOT_ID);
-        if (objective == null)
-            return null;
+        if (objective == null) return null;
         List<Text> objectiveName = objective.getDisplayName().getSiblings();
 
         StringBuilder objectiveNameFormatted = new StringBuilder();
@@ -43,8 +43,7 @@ public class ScoreboardGetter {
         assert player != null;
 
         Text currentTitle = getScoreboardTitle(player);
-        if (currentTitle == null || currentTitle.getString().length() < 5)
-            return null;
+        if (currentTitle == null || currentTitle.getString().length() < 5) return null;
         return Text.of(currentTitle.getString().substring(5).trim());
     }
 
@@ -53,13 +52,11 @@ public class ScoreboardGetter {
 
         Text game = getGame(player);
         if (game == null) {
-            if (debug)
-                player.sendMessage(Text.of("Game is null"));
+            if (debug) player.sendMessage(Text.of("Game is null"));
             return false;
         }
-        if (debug)
-            player.sendMessage(Text.of(game.getString()));
-        return (game.getString().contains("BATTLE BOX")) && !isLobby();
+        if (debug) player.sendMessage(Text.of(game.getString()));
+        return (game.getString().contains("BATTLE BOX")) && ((isPlobby(player)) || roundLosses + roundWins + mapLosses + mapWins != 0);
     }
 
     public static Collection<String> getScoreboardRows(ClientPlayerEntity player) {
@@ -67,8 +64,7 @@ public class ScoreboardGetter {
 
         Scoreboard scoreboard = player.getScoreboard();
         ScoreboardObjective objective = scoreboard.getObjectiveForSlot(Scoreboard.SIDEBAR_DISPLAY_SLOT_ID);
-        if (objective == null)
-            return null;
+        if (objective == null) return null;
         List<String> players = scoreboard.getKnownPlayers().stream().toList();
         ArrayList<String> prefixes = new ArrayList<>();
         for (int i = players.size(); i > 0; i--) {
@@ -83,19 +79,16 @@ public class ScoreboardGetter {
         assert player != null;
 
         Collection<String> scoreboardRows = getScoreboardRows(player);
-        if (scoreboardRows == null)
-            return null;
+        if (scoreboardRows == null) return null;
         return scoreboardRows.stream().filter(row -> row.contains("MAP:")).toList().stream().findFirst().orElse("");
     }
 
     public static boolean isLobby() {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
-        if (player == null)
-            return false;
+        if (player == null) return false;
         String map = getMap(player);
-        if (map == null)
-            return false;
+        if (map == null) return false;
         return map.isEmpty();
     }
 }

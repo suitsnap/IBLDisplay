@@ -6,10 +6,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import tech.suitsnap.ibldisplay.game.RoundManager;
 
+import java.util.Arrays;
+
 import static tech.suitsnap.ibldisplay.game.CombatManager.handleDeath;
 import static tech.suitsnap.ibldisplay.game.CombatManager.handleKill;
 import static tech.suitsnap.ibldisplay.game.RoundManager.*;
-import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.isValid;
+import static tech.suitsnap.ibldisplay.render.GameOverlay.isOverlayEnabled;
+import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.isPlobby;
 
 @Environment(EnvType.CLIENT)
 public class ChatHandler {
@@ -17,7 +20,7 @@ public class ChatHandler {
     public static void handleChat(String content) {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
-        if (!isValid(player, false)) return;
+        if (!isPlobby(player) || !isOverlayEnabled) return;
         if ((!content.startsWith("[") || content.charAt(2) != ']' || content.contains("."))) return;
         String username = player.getName().getString();
         if (content.contains("You are facing")) {
@@ -46,8 +49,8 @@ public class ChatHandler {
         }
         if (!content.contains(username) || content.contains("survived")) return;
         boolean isKill = content.contains("[+");
-        if (isKill) handleKill();
-        else handleDeath();
+        if (isKill && Arrays.stream(words).filter(word -> word.equals(username)).count() == 1) handleKill();
+        else if (!isKill && Arrays.stream(words).filter(word -> word.equals(username)).count() == 1) handleDeath();
     }
 
 }

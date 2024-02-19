@@ -9,6 +9,7 @@ import tech.suitsnap.ibldisplay.IBLDisplayClient;
 import java.util.List;
 
 import static tech.suitsnap.ibldisplay.game.CombatManager.*;
+import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.isPlobby;
 import static tech.suitsnap.ibldisplay.util.TabListGetter.teamMembers;
 
 @Environment(EnvType.CLIENT)
@@ -25,6 +26,8 @@ public class RoundManager {
     public static Result roundResult;
 
     public static void newRound(String string) {
+        if (!isPlobby(MinecraftClient.getInstance().player))
+            return;
         String[] words = string.split(" ");
         if (words.length < 6)
             return;
@@ -44,6 +47,8 @@ public class RoundManager {
 
 
     public static void gameEnd() {
+        if (!isPlobby(MinecraftClient.getInstance().player))
+            return;
         teamMembers.clear();
         if (roundWins >= 3) {
             mapWins++;
@@ -56,6 +61,8 @@ public class RoundManager {
     }
 
     public static void handleRoundEnd(Result result) {
+        if (!isPlobby(MinecraftClient.getInstance().player))
+            return;
         roundResult = result;
         if (isFillRound) result = Result.FILL;
         switch (result) {
@@ -92,6 +99,16 @@ public class RoundManager {
 
     public static void handleLoss() {
         roundLosses++;
+    }
+
+    public static void reset() {
+        mapWins = 0;
+        mapLosses = 0;
+        roundWins = 0;
+        roundLosses = 0;
+        roundStarted = false;
+        isFillRound = false;
+        roundResult = null;
     }
 
     public enum Result {

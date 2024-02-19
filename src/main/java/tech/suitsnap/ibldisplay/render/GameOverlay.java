@@ -21,6 +21,7 @@ import static tech.suitsnap.ibldisplay.game.CombatManager.deaths;
 import static tech.suitsnap.ibldisplay.game.CombatManager.kills;
 import static tech.suitsnap.ibldisplay.game.RoundManager.*;
 import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.getMap;
+import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.isValid;
 
 @Environment(EnvType.CLIENT)
 public class GameOverlay implements HudRenderCallback {
@@ -108,8 +109,7 @@ public class GameOverlay implements HudRenderCallback {
             }
             roundStartX += iconWidth - 5;
         }
-
-
+        
         int mapStartX = x - totalWidth;
         int mapY = y - 97;
 
@@ -159,7 +159,7 @@ public class GameOverlay implements HudRenderCallback {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
 
-        if (player == null || tr[0] == null || serverTracker.isNotMCCIsland() /*|| !isValid(client.player, false)*/) {
+        if (player == null || tr[0] == null || serverTracker.isNotMCCIsland() || !isValid(client.player, false)) {
             return;
         }
 
@@ -182,7 +182,7 @@ public class GameOverlay implements HudRenderCallback {
                 y = height / 3;
             }
             case BOTTOM_CENTER -> {
-                x = width / 2;
+                x = width / 2 - 20;
                 y = height;
             }
             default -> throw new IllegalStateException("Unexpected value: " + overlayPosition);

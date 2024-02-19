@@ -9,9 +9,8 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.Text;
 import tech.suitsnap.ibldisplay.IBLDisplayClient;
-
-import static tech.suitsnap.ibldisplay.game.CombatManager.deaths;
-import static tech.suitsnap.ibldisplay.game.CombatManager.kills;
+import tech.suitsnap.ibldisplay.game.CombatManager;
+import tech.suitsnap.ibldisplay.game.RoundManager;
 
 @Environment(EnvType.CLIENT)
 public class ResetCommand {
@@ -26,8 +25,8 @@ public class ResetCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        kills = 0;
-        deaths = 0;
+        CombatManager.reset();
+        RoundManager.reset();
 
         return Command.SINGLE_SUCCESS;
     }
