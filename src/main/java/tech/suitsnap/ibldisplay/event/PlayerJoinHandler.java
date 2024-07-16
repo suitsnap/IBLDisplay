@@ -26,7 +26,7 @@ public class PlayerJoinHandler implements ClientPlayConnectionEvents.Join {
         executorService.schedule(() -> {
             if (getGame(client.player) != null) {
                 if(!isPlobby(client.player)) {
-                    RoundManager.reset();
+                    RoundManager.resetAll();
                     return;
                 }
 

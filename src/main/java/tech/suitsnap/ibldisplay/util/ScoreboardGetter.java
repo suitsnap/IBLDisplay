@@ -2,7 +2,6 @@ package tech.suitsnap.ibldisplay.util;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardObjective;
@@ -81,14 +80,5 @@ public class ScoreboardGetter {
         Collection<String> scoreboardRows = getScoreboardRows(player);
         if (scoreboardRows == null) return null;
         return scoreboardRows.stream().filter(row -> row.contains("MAP:")).toList().stream().findFirst().orElse("");
-    }
-
-    public static boolean isLobby() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        ClientPlayerEntity player = client.player;
-        if (player == null) return false;
-        String map = getMap(player);
-        if (map == null) return false;
-        return map.isEmpty();
     }
 }

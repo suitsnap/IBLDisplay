@@ -6,8 +6,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import tech.suitsnap.ibldisplay.IBLDisplayClient;
 
-import java.util.List;
-
 import static tech.suitsnap.ibldisplay.game.CombatManager.*;
 import static tech.suitsnap.ibldisplay.util.ScoreboardGetter.isPlobby;
 import static tech.suitsnap.ibldisplay.util.TabListGetter.teamMembers;
@@ -21,7 +19,6 @@ public class RoundManager {
     public static int roundLosses = 0;
 
     public static boolean roundStarted = false;
-    public static boolean isFillRound = false;
 
     public static Result roundResult;
 
@@ -34,11 +31,6 @@ public class RoundManager {
         String opponentTeam = words[6];
         MinecraftClient client = MinecraftClient.getInstance();
         assert client.player != null;
-        List<String> opponents = teamMembers.get(opponentTeam);
-        if (opponents == null || opponents.isEmpty()) {
-            client.player.sendMessage(Text.of("Fill round"));
-            isFillRound = true;
-        }
         client.player.sendMessage(Text.of("New round against: " + teamMembers.get(opponentTeam).toString()));
         roundStarted = true;
         roundKills = 0;
@@ -50,13 +42,13 @@ public class RoundManager {
         if (!isPlobby(MinecraftClient.getInstance().player))
             return;
         teamMembers.clear();
-        if (roundWins >= 3) {
+        if (roundWins >= 4) {
             mapWins++;
-            roundWins = 0;
+            resetRound();
         }
-        if (roundLosses >= 3) {
+        if (roundLosses >= 4) {
             mapLosses++;
-            roundLosses = 0;
+            resetRound();
         }
     }
 
@@ -64,7 +56,6 @@ public class RoundManager {
         if (!isPlobby(MinecraftClient.getInstance().player))
             return;
         roundResult = result;
-        if (isFillRound) result = Result.FILL;
         switch (result) {
             case TIE:
                 handleTie();
@@ -75,17 +66,11 @@ public class RoundManager {
             case LOSS:
                 handleLoss();
                 break;
-            case FILL:
-                break;
             default:
                 IBLDisplayClient.LOGGER.info("Invalid result type in handleRoundEnd()");
         }
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        assert client.player != null;
-        client.player.sendMessage(Text.of(roundWins + " - " + roundLosses));
         roundStarted = false;
-        isFillRound = false;
     }
 
     public static void handleTie() {
@@ -101,13 +86,18 @@ public class RoundManager {
         roundLosses++;
     }
 
-    public static void reset() {
+    public static void resetAll() {
         mapWins = 0;
         mapLosses = 0;
         roundWins = 0;
         roundLosses = 0;
         roundStarted = false;
-        isFillRound = false;
+        roundResult = null;
+    }
+    public static void resetRound() {
+        roundWins = 0;
+        roundLosses = 0;
+        roundStarted = false;
         roundResult = null;
     }
 
@@ -115,6 +105,5 @@ public class RoundManager {
         WIN,
         LOSS,
         TIE,
-        FILL,
     }
 }

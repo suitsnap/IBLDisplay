@@ -43,7 +43,7 @@ public class IBLDisplayClient implements ClientModInitializer {
                 loaded[0] = true;
             }
         });
-        LOGGER.info("Initializing " + MODNAME);
+        LOGGER.info("Initializing {}", MODNAME);
 
         HudRenderCallback.EVENT.register(new GameOverlay());
 
@@ -56,7 +56,7 @@ public class IBLDisplayClient implements ClientModInitializer {
             PositionCommand.register(dispatcher);
         });
 
-        LOGGER.info("Initialized " + MODNAME);
+        LOGGER.info("Initialized {}", MODNAME);
     }
 
 }

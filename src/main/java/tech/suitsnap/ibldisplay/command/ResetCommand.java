@@ -26,7 +26,7 @@ public class ResetCommand {
         }
 
         CombatManager.reset();
-        RoundManager.reset();
+        RoundManager.resetAll();
 
         return Command.SINGLE_SUCCESS;
     }

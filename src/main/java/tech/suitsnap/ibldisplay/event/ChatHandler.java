@@ -48,9 +48,11 @@ public class ChatHandler {
             }
         }
         if (!content.contains(username) || content.contains("survived")) return;
-        boolean isKill = content.contains("[+");
-        if (isKill && Arrays.stream(words).filter(word -> word.equals(username)).count() == 1) handleKill();
-        else if (!isKill && Arrays.stream(words).filter(word -> word.equals(username)).count() == 1) handleDeath();
-    }
 
+        boolean isKill = content.contains("[+");
+        if (Arrays.stream(words).noneMatch(word -> word.equals(username))) return;
+
+        if (isKill) handleKill();
+        else handleDeath();
+    }
 }
